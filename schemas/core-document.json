@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MSOS Core Medical Document",
+  "type": "object",
+  "required": ["metadata", "sections"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "بيانات المحاضرة أو الملف الطبي",
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "specialty": { "type": "string" }
+      }
+    },
+    "sections": {
+      "type": "array",
+      "description": "أقسام الملخص (زي الأسباب، الأعراض، العلاج)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sectionTitle": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      }
+    }
+  }
+}
