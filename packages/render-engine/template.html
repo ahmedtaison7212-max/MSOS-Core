@@ -3,68 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>MSOS Medical Summary</title>
-  
-  <!-- هنا بنربط ملف الألوان والخطوط اللي عملناه -->
   <link rel="stylesheet" href="../design-system/tokens.css">
-  
   <style>
-    /* إعدادات صفحة الـ A4 للطباعة عشان تطلع مظبوطة في الـ PDF */
-    @page {
-      size: A4;
-      margin: 20mm;
-    }
+    @page { size: A4; margin: 15mm; }
     body {
       font-family: var(--font-family-arabic);
       color: var(--color-text-main);
       background-color: white;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
     }
     .document-container {
-      width: 210mm; /* عرض ورقة A4 */
-      min-height: 297mm; /* طول ورقة A4 */
-      margin: auto;
-      background: white;
+      width: 210mm; margin: auto; background: white; padding: var(--spacing-medium);
     }
     .header {
-      border-bottom: 2px solid var(--color-primary);
+      border-bottom: 3px solid var(--color-primary);
       padding-bottom: var(--spacing-medium);
       margin-bottom: var(--spacing-large);
+      text-align: center;
     }
-    h1 {
-      font-size: var(--text-size-title);
-      color: var(--color-primary);
-      margin-bottom: 0;
-    }
+    h1 { color: var(--color-primary); font-size: var(--text-size-title); margin: 0; }
+    .meta-data { color: var(--color-text-muted); font-weight: 600; }
+    
     .section-title {
       font-size: var(--text-size-heading);
       background-color: var(--color-background-light);
       padding: var(--spacing-small);
-      border-right: 4px solid var(--color-warning);
+      border-right: 4px solid var(--color-secondary);
+      border-radius: 4px;
     }
-    .content {
-      font-size: var(--text-size-body);
-      line-height: 1.6;
+    
+    .content { font-size: var(--text-size-body); line-height: 1.7; margin-bottom: var(--spacing-large); }
+    
+    /* بوكس التنبيهات والأعراض الجانبية */
+    .callout {
+      background-color: #fdf2e9;
+      border-right: 4px solid var(--color-warning);
+      padding: var(--spacing-medium);
+      margin: var(--spacing-medium) 0;
+      border-radius: 4px;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-
   <div class="document-container">
-    <!-- الجزء ده الـ AI هيملاه ببيانات المحاضرة -->
-    <div class="header">
-      <h1>عنوان المحاضرة (Placeholder)</h1>
-      <p style="color: var(--color-text-muted);">دكتور: اسم الدكتور | تخصص: المادة</p>
     </div>
-    
-    <!-- الجزء ده الـ AI هيملاه بالشرح والملخص -->
-    <div class="section">
-      <h2 class="section-title">الأسباب والأعراض</h2>
-      <div class="content">
-        <p>هنا هيتم إدراج النص الطبي المنسق والمنظم لسهولة المذاكرة والمراجعة...</p>
-      </div>
-    </div>
-  </div>
-
 </body>
 </html>

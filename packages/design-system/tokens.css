@@ -1,23 +1,29 @@
+/* استدعاء خط كايرو من جوجل */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
 :root {
-  /* الألوان الأساسية للملخصات الطبية */
-  --color-primary: #005b9f; /* أزرق طبي احترافي */
-  --color-text-main: #2c3e50; /* رصاصي غامق مريح للعين في القراءة */
-  --color-text-muted: #7f8c8d; /* رصاصي فاتح للملاحظات الجانبية */
-  --color-background-light: #f8f9fa; /* خلفية الجداول والبوكسات */
-  --color-warning: #e74c3c; /* أحمر للتنبيهات الطبية والأعراض الجانبية */
-
-  /* إعدادات الخطوط */
-  --font-family-arabic: 'Cairo', 'Tajawal', sans-serif;
-  --font-family-english: 'Roboto', 'Helvetica Neue', sans-serif;
+  --color-primary: #1a5f7a;
+  --color-secondary: #2298c3;
+  --color-warning: #e67e22;
+  --color-danger: #e74c3c;
+  --color-background-light: #f7f9fa;
+  --color-text-main: #2c3e50;
+  --color-text-muted: #7f8c8d;
   
-  /* أحجام العناوين والنصوص مجهزة لطباعة ورق A4 */
-  --text-size-title: 24pt;
-  --text-size-heading: 18pt;
-  --text-size-body: 12pt;
-  --text-size-small: 10pt;
-
-  /* المسافات والهوامش */
   --spacing-small: 8px;
   --spacing-medium: 16px;
   --spacing-large: 24px;
+  
+  --font-family-arabic: 'Cairo', sans-serif;
+  --text-size-title: 24px;
+  --text-size-heading: 18px;
+  --text-size-body: 14px;
+}
+
+/* السر هنا: إجبار المتصفح على طباعة الألوان والبوكسات في الـ PDF */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
