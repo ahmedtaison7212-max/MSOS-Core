@@ -1,0 +1,23 @@
+:root {
+  /* الألوان الأساسية للملخصات الطبية */
+  --color-primary: #005b9f; /* أزرق طبي احترافي */
+  --color-text-main: #2c3e50; /* رصاصي غامق مريح للعين في القراءة */
+  --color-text-muted: #7f8c8d; /* رصاصي فاتح للملاحظات الجانبية */
+  --color-background-light: #f8f9fa; /* خلفية الجداول والبوكسات */
+  --color-warning: #e74c3c; /* أحمر للتنبيهات الطبية والأعراض الجانبية */
+
+  /* إعدادات الخطوط */
+  --font-family-arabic: 'Cairo', 'Tajawal', sans-serif;
+  --font-family-english: 'Roboto', 'Helvetica Neue', sans-serif;
+  
+  /* أحجام العناوين والنصوص مجهزة لطباعة ورق A4 */
+  --text-size-title: 24pt;
+  --text-size-heading: 18pt;
+  --text-size-body: 12pt;
+  --text-size-small: 10pt;
+
+  /* المسافات والهوامش */
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+}
