@@ -1,29 +1,79 @@
-/* استدعاء خط كايرو من جوجل */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@500;600;700&display=swap');
 
 :root {
-  --color-primary: #1a5f7a;
-  --color-secondary: #2298c3;
-  --color-warning: #e67e22;
-  --color-danger: #e74c3c;
-  --color-background-light: #f7f9fa;
-  --color-text-main: #2c3e50;
-  --color-text-muted: #7f8c8d;
-  
-  --spacing-small: 8px;
-  --spacing-medium: 16px;
-  --spacing-large: 24px;
-  
-  --font-family-arabic: 'Cairo', sans-serif;
-  --text-size-title: 24px;
-  --text-size-heading: 18px;
-  --text-size-body: 14px;
+    --primary-dark: #0a2540;
+    --primary-blue: #1e3a8a;
+    --accent-blue: #3b82f6;
+    --amiya-bg: #f0fdf4;
+    --amiya-border: #16a34a;
+    --text-dark: #1e293b;
+    --text-gray: #475569;
+    --bg-page: #f1f5f9;
+    --white: #ffffff;
+    --danger: #ef4444;
 }
 
-/* السر هنا: إجبار المتصفح على طباعة الألوان والبوكسات في الـ PDF */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-dark);
+    margin: 0; padding: 0; line-height: 1.6;
+}
+
+/* Header & Container */
+.hero-header {
+    background-image: linear-gradient(135deg, #0a2540 0%, #1e3a8a 100%);
+    color: var(--white);
+    padding: 50px 40px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.hero-header h1 { font-size: 32px; margin: 10px 0; font-weight: 700; }
+.hero-header p { font-size: 16px; color: #cbd5e1; margin: 0; }
+.container { max-width: 1000px; margin: -40px auto 0; padding: 0 20px; }
+
+/* Content Boxes */
+.content-box {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+.section-title {
+    font-size: 24px; color: var(--primary-dark);
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 15px; margin-bottom: 25px;
+}
+.sub-heading { font-size: 18px; color: var(--primary-blue); margin: 25px 0 15px; font-weight: 600; }
+
+/* Amiya Box (العامية) */
+.amiya-box {
+    background-color: var(--amiya-bg);
+    border-right: 5px solid var(--amiya-border);
+    padding: 20px; border-radius: 8px; margin: 25px 0;
+    direction: rtl; font-family: 'Cairo', sans-serif;
+}
+.badge-ar { background-color: var(--amiya-border); color: white; padding: 4px 12px; border-radius: 15px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 10px; }
+.amiya-box p { margin: 0; font-size: 16px; color: #166534; font-weight: 600; }
+
+/* Print Button */
+.print-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    background-color: var(--primary-blue); color: white;
+    border: none; padding: 15px 25px; border-radius: 30px;
+    font-size: 16px; font-family: 'Cairo', sans-serif;
+    font-weight: bold; cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(30,58,138,0.3);
+    z-index: 1000; display: flex; align-items: center; gap: 10px;
+}
+
+/* Print Settings */
 @media print {
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
+    body { background: white; }
+    .hero-header { background: white; color: black; border-bottom: 2px solid black; }
+    .hero-header p { color: black; }
+    .print-btn { display: none !important; }
+    .content-box { box-shadow: none; padding: 10px 0; page-break-inside: avoid; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }

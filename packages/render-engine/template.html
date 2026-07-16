@@ -1,52 +1,32 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MSOS Medical Summary</title>
-  <link rel="stylesheet" href="../design-system/tokens.css">
-  <style>
-    @page { size: A4; margin: 15mm; }
-    body {
-      font-family: var(--font-family-arabic);
-      color: var(--color-text-main);
-      background-color: white;
-      margin: 0; padding: 0;
-    }
-    .document-container {
-      width: 210mm; margin: auto; background: white; padding: var(--spacing-medium);
-    }
-    .header {
-      border-bottom: 3px solid var(--color-primary);
-      padding-bottom: var(--spacing-medium);
-      margin-bottom: var(--spacing-large);
-      text-align: center;
-    }
-    h1 { color: var(--color-primary); font-size: var(--text-size-title); margin: 0; }
-    .meta-data { color: var(--color-text-muted); font-weight: 600; }
-    
-    .section-title {
-      font-size: var(--text-size-heading);
-      background-color: var(--color-background-light);
-      padding: var(--spacing-small);
-      border-right: 4px solid var(--color-secondary);
-      border-radius: 4px;
-    }
-    
-    .content { font-size: var(--text-size-body); line-height: 1.7; margin-bottom: var(--spacing-large); }
-    
-    /* بوكس التنبيهات والأعراض الجانبية */
-    .callout {
-      background-color: #fdf2e9;
-      border-right: 4px solid var(--color-warning);
-      padding: var(--spacing-medium);
-      margin: var(--spacing-medium) 0;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSOS - Premium Medical Summary</title>
+    <!-- استدعاء ملف الألوان والتصميم -->
+    <link rel="stylesheet" href="../design-system/tokens.css">
 </head>
 <body>
-  <div class="document-container">
+
+    <!-- زرار الطباعة العائم -->
+    <button class="print-btn" onclick="window.print()">
+        🖨️ طباعة الملزمة
+    </button>
+
+    <!-- رأس الصفحة الفخم -->
+    <div class="hero-header">
+        <h1>[Title of the Lecture]</h1>
+        <p>A comprehensive, high-retention medical summary extracted via MSOS Engine. Features full clinical details and simplified bilingual explanations.</p>
     </div>
+
+    <!-- حاوية المحتوى الرئيسي -->
+    <div class="container">
+        
+        <!-- الذكاء الاصطناعي هيحط الـ content-boxes هنا أوتوماتيك -->
+        <!-- AI_INJECT_CONTENT_HERE -->
+
+    </div>
+
 </body>
 </html>

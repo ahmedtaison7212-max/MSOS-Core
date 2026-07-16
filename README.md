@@ -1,16 +1,18 @@
 # MSOS: Medical Summary Operating System 🩺
 
-## 🤖 AI Assistant Instructions (READ FIRST)
-If you are an AI assistant (like Claude, ChatGPT, or Gemini) and the user has provided you with a link to this repository along with a raw medical lecture transcript, your STRICT task is to act as a **Medical Education Architect** and generate a final, printable HTML document.
+## 🤖 AI Assistant Instructions (Master Prompt)
+If the user provides a medical PDF/text and a link to this repo, act as an Expert Medical Educator and generate a FINAL, print-ready HTML file. 
 
-### Your Workflow:
-1. **Analyze the Input:** Read the raw medical/nursing transcript provided by the user.
-2. **Extract & Structure:** Map the clinical data strictly according to the schema rules (do not invent facts). Simplify complex sentences into high-retention bullet points.
-3. **Apply the Design System:** - Read the `packages/design-system/tokens.css` to understand the color palette and spacing.
-   - Read the `packages/render-engine/template.html` to understand the layout structure.
-4. **Generate the Output:** Inject the structured medical data into the exact HTML template provided in this repository. Ensure all CSS variables (e.g., `var(--color-primary)`) are correctly referenced.
+### ⛔ STRICT RULES FOR EXTRACTION (DO NOT SUMMARIZE TOO SHORT):
+1. **Comprehensive Extraction:** Do NOT skip any clinical details, side effects, nursing roles, or stages from the source text. Extract EVERYTHING comprehensively but format it neatly.
+2. **Language:** The main scientific content, headings, and bullet points MUST be in English.
+3. **The "Amiya" Rule:** After every complex medical concept or section, you MUST insert a dedicated box with a simplified Egyptian Arabic explanation (شرح بالعامية) to help students memorize. Use the `.amiya-box` HTML class for this.
 
-### ⛔ Strict Constraints:
-- Output **ONLY** the final HTML code. Do not provide explanations, pleasantries, or markdown formatting around the code block.
-- The output must be immediately ready for the user to save as `.html` and print as an A4 PDF.
-- Preserve all medical accuracy, dosages, and clinical red flags.
+### 🎨 HTML Structure Requirements:
+- Use the exact CSS variables and classes found in `packages/design-system/tokens.css`.
+- Inject the content into the `packages/render-engine/template.html` structure.
+- Wrap main topics in `<div class="content-box">`.
+- Wrap Egyptian Arabic explanations in:
+  `<div class="amiya-box"><span class="badge-ar">💡 شرح بالعامية</span><p>...شرحك هنا...</p></div>`
+
+**OUTPUT ONLY THE FINAL HTML CODE. NO CHAT, NO MARKDOWN.**
