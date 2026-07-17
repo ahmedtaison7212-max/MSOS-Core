@@ -183,3 +183,19 @@ th { background: #f8fafc; color: var(--primary-dark); font-weight: 600; }
 
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
 }
+
+/* تصميم الصور المولدة بالذكاء الاصطناعي */
+.auto-image {
+    width: 100%; 
+    max-height: 350px; 
+    object-fit: cover; 
+    border-radius: 12px; 
+    margin: 25px 0; 
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+    border: 2px solid #e2e8f0;
+}
+
+/* منع قص الصور والبوكسات بين صفحتين في الطباعة */
+@media print {
+    .auto-image, .amiya-box { page-break-inside: avoid; }
+}
