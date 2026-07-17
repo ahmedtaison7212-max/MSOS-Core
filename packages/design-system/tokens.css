@@ -6,6 +6,12 @@
    so the exported summary is a single, portable, self-contained file.
    ========================================================================== */
 
+/* Must stay the very first rule in this file for @import to work once
+   inlined into <style> — do not let the AI prepend a comment above it.
+   If the exported file is ever opened fully offline (no network), this
+   request just fails silently and the fallback stacks below (Segoe UI /
+   Tahoma / system sans) take over — layout and print rules are
+   unaffected either way, only the exact typeface changes. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@500;600;700&display=swap');
 
 :root {
@@ -32,6 +38,14 @@ body {
     background-color: var(--bg-page);
     color: var(--text-dark);
     margin: 0; padding: 0; line-height: 1.6;
+    overflow-wrap: break-word; word-break: break-word;
+}
+
+/* Standalone footer, used by template.html — kept here so the design
+   system stays the single source of truth for every visible style. */
+.site-footer {
+    text-align: center; color: var(--text-gray);
+    font-size: 12px; padding: 10px 0 30px;
 }
 
 /* Header & Container */
@@ -131,24 +145,37 @@ th { background: #f8fafc; color: var(--primary-dark); font-weight: 600; }
 
     .content-box {
         box-shadow: none;
-        border: 1px solid #e2e8f0;
+        border-top: 3px solid #e2e8f0;
         padding: 20px 0;
         margin-bottom: 20px;
         /* Long boxes are allowed to flow across pages. Forcing the whole
            box to "avoid" breaking (the old rule) causes huge blank gaps
-           whenever a section is taller than the remaining page space. */
+           whenever a section is taller than the remaining page space.
+           A top-accent border (instead of a full border) also means a
+           box that actually splits mid-page never shows an orphaned
+           unclosed edge — it just reads as a continued section. */
         page-break-inside: auto;
         break-inside: auto;
     }
 
     /* But never leave a heading orphaned at the bottom of a page,
-       and never split a table row, list item, or the Amiya box itself */
+       and never split a list item or the Amiya box itself */
     .section-title, .sub-heading {
         page-break-after: avoid; break-after: avoid;
     }
-    .amiya-box, table, tr, li, .callout, img {
+    .amiya-box, li, .callout, img {
         page-break-inside: avoid; break-inside: avoid;
     }
+
+    /* Tables: same "no forced-avoid on a big element" logic as
+       .content-box above — a 25-row drug table forced to avoid
+       breaking would either leave a huge blank gap or overflow the
+       page unpredictably. Let the table span pages, keep individual
+       rows intact, and repeat the header row on every page it spans. */
+    table { page-break-inside: auto; break-inside: auto; }
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
 
     p, li { orphans: 3; widows: 3; }
 
