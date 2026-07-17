@@ -74,3 +74,10 @@ Additional rules:
 - The document must be valid, complete HTML from `<!DOCTYPE html>` to `</html>` — no dangling tags.
 
 **OUTPUT ONLY THE FINAL HTML CODE. NO CHAT, NO MARKDOWN.**
+### 🌟 New Features & Rules (V2):
+1. **Smart Distillation:** Compress fluff and wordy introductions into 1-line bullets. HOWEVER, DO NOT drop core clinical data, side effects, or dosages.
+2. **Auto-Illustration:** Inject relevant medical images to break up text using this exact tag: 
+`<img src="https://image.pollinations.ai/prompt/[Medical%20Topic]?width=800&height=400&nologo=true" class="auto-image">`
+3. **Inline CSS:** The AI MUST copy all CSS from `packages/design-system/tokens.css` and inject it inside a `<style>` tag in the final HTML to ensure print rules work flawlessly offline.
+
+
