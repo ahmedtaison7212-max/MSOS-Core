@@ -20,7 +20,9 @@ When a user provides **(a)** raw medical lecture content (text, PDF, or transcri
 2. **Structural Fidelity.**
    - Preserve the lecture's original section order and hierarchy (headings → sub-headings → sub-points) unless reorganizing clearly improves clarity — and if you do reorganize, every original heading must still appear somewhere in the output.
    - Convert tabular data (drug tables, lab values, comparison charts, staging systems) into real HTML `<table>` elements. Never flatten a table into a bullet list — it loses the row/column relationships.
-   - **Content-box granularity.** One `<div class="content-box">` = one major topic (roughly one H2-level heading from the source), not the whole lecture. If a topic has several dense sub-topics, split it into multiple smaller, focused content-boxes rather than one giant box. This keeps each box's mandatory Amiya box (below) genuinely simple, and prints more predictably.
+   - **Comparison tables, not scattered bullets.** Whenever the source compares two or more items across shared attributes (X vs. Y, stages of a disease, types/classes of something, "differences between..."), render it as `<table class="compare-table">` with the items as columns and the shared attributes as rows. Don't force the reader to mentally align two separate bullet lists — see Component Library below for exact markup.
+   - **Key Terms first.** If a content-box introduces three or more complex or unfamiliar terms, open it — right after `.section-title`, before the first paragraph — with a `.key-terms` glossary defining each term in one plain sentence. Don't make the reader hit unexplained jargon cold.
+   - **Content-box granularity.** One `<div class="content-box">` = one major topic (roughly one H2-level heading from the source), not the whole lecture. If a topic has several dense sub-topics, split it into multiple smaller, focused content-boxes rather than one giant box. This keeps each box focused enough that its inline Amiya notes (below) stay tightly scoped to one idea at a time.
    - **Ordered vs. unordered lists.** Use `<ol>` for sequential steps (drug administration order, nursing procedure steps, staging progression) and `<ul>` for non-sequential lists (symptoms, risk factors). Step order is a clinical-safety detail, not a style choice.
 
 3. **Silent Self-Audit Before Output.**
@@ -33,21 +35,32 @@ When a user provides **(a)** raw medical lecture content (text, PDF, or transcri
 
 5. **Language Rule.**
    - Scientific headings, bullet points, and clinical content: **English**, using correct medical terminology.
-   - Amiya boxes: **Egyptian Arabic (Amiya)**, not Modern Standard Arabic, and not a literal translation of the English text — a simplified, spoken-style explanation, as if a senior student were explaining it out loud, ideally with a memory hook (تشبيه / طريقة للحفظ).
+   - Amiya notes: **Egyptian Arabic (Amiya)**, not Modern Standard Arabic, and not a literal translation of the English text — a simplified, spoken-style explanation, as if a senior student were explaining it out loud, ideally with a memory hook (تشبيه / طريقة للحفظ).
+
+6. **Visual Aids — Break the Wall of Text.**
+   - For any process, sequence, cycle, or staged progression in the source (disease stages, a physiological pathway, a step-by-step mechanism), render a `.flow-diagram` — a simple numbered step sequence — instead of describing it only in a paragraph or bullet list.
+   - Where a genuinely spatial or structural relationship is being described (anatomy, a cell/receptor structure, an interaction between components) and a flow sequence doesn't fit, draw a small original illustration directly in inline SVG inside a `.diagram-box` — basic shapes and labels, not a photorealistic image. **Never** insert `<img src="...">` pointing to a URL — you cannot fetch or generate real image files, and a broken image icon is worse than no image.
+   - Use visual aids purposefully, not decoratively: one clear visual per major process or comparison in a content-box is enough. Don't add a diagram to every paragraph — that just creates a different kind of clutter.
 
 ---
 
 ### 🇪🇬 THE "AMIYA" RULE (MANDATORY — NOT A JUDGMENT CALL)
 
-- Every `<div class="content-box">` **must** end with exactly one `.amiya-box`. Apply this to *every* section — do not decide per-section whether a topic is "complex enough" to deserve one.
-- The Amiya box explains the idea, it does not translate the English text word-for-word. 2–4 spoken-style sentences.
-- **This only works if content-boxes are scoped correctly (see Structural Fidelity → Content-box granularity above).** If you find yourself trying to explain three unrelated ideas in one Amiya box, that's a signal the content-box is doing too much — split it into smaller content-boxes instead of stretching one Amiya box thin.
+- Amiya explanations go **inline, immediately under the specific paragraph, sub-heading, or table they explain** — never bundled into one box at the end of the content-box. The reader should never have to scroll past several unrelated paragraphs to find out what one sentence meant.
+- Use the lightweight `.amiya-note` after **every paragraph, table, or bullet-cluster that introduces a non-trivial idea** (a mechanism, a clinical reasoning step, a "why this matters"). A plain factual list (a bare symptom list, a bare drug-name list) doesn't need one after every single `<li>` — use judgment, but default to explaining rather than skipping.
+- The note explains the idea in your own words; it is not a word-for-word translation of the English text. 1–3 spoken-style sentences, as if a senior student were explaining it out loud. A memory hook (تشبيه) is a nice bonus, not a requirement on every single note.
 - Exact markup — do not alter class names or structure:
 
 ```html
+<p class="amiya-note" dir="rtl" lang="ar">🗣️ ...شرحك هنا...</p>
+```
+
+- **Optional, not mandatory:** for a content-box covering a genuinely large, multi-part topic, you may close it with one `.amiya-box` "الخلاصة" recap that ties the ideas together — but this is a bonus wrap-up, never a substitute for the inline `.amiya-note`s above.
+
+```html
 <div class="amiya-box" dir="rtl" lang="ar">
-  <span class="badge-ar">💡 شرح بالعامية</span>
-  <p>...شرحك هنا...</p>
+  <span class="badge-ar">💡 الخلاصة</span>
+  <p>...خلاصة الفكرة كلها...</p>
 </div>
 ```
 
@@ -62,8 +75,55 @@ Use `packages/render-engine/template.html` as the DOM skeleton and fill in its t
 3. **`<!-- AI_INJECT_CONTENT_HERE -->`** — replace with your generated `content-box` sections.
 
 Additional rules:
-- Wrap every major topic in `<div class="content-box">`, sub-points in `.sub-heading`, tables in real `<table>` markup, and safety-critical warnings (black-box warnings, contraindications) in `.callout`.
+- Wrap every major topic in `<div class="content-box">`, sub-points in `.sub-heading`, tables in real `<table>` markup, head-to-head comparisons in `table.compare-table`, opening glossaries in `.key-terms`, processes/sequences in `.flow-diagram`, safety-critical warnings (black-box warnings, contraindications) in `.callout`, and inline Egyptian-Arabic explanations in `.amiya-note`.
 - Never simulate a table with line breaks or dashes.
+
+---
+
+### 🧩 COMPONENT LIBRARY — EXACT MARKUP
+
+Use these exact class names and structures. Do not invent new component classes — tokens.css only styles what's listed here (plus `.amiya-box` and `.callout` shown earlier).
+
+**Key Terms** (glossary opening a jargon-heavy content-box):
+```html
+<div class="key-terms">
+  <h4>Key Terms</h4>
+  <dl>
+    <dt>Term</dt><dd>One plain-language sentence defining it.</dd>
+    <dt>Another Term</dt><dd>One plain-language sentence defining it.</dd>
+  </dl>
+</div>
+```
+
+**Comparison Table** (X vs. Y, stages, classifications):
+```html
+<table class="compare-table">
+  <thead><tr><th>Aspect</th><th>Item A</th><th>Item B</th></tr></thead>
+  <tbody>
+    <tr><td>Some attribute</td><td>...</td><td>...</td></tr>
+  </tbody>
+</table>
+```
+
+**Flow Diagram** (a process, pathway, or staged progression):
+```html
+<div class="flow-diagram">
+  <div class="flow-step"><p>Step one description</p></div>
+  <div class="flow-step"><p>Step two description</p></div>
+  <div class="flow-step"><p>Step three description</p></div>
+</div>
+```
+(Numbering is automatic via CSS — do not add numbers yourself inside the `<p>`.)
+
+**Diagram Box** (an original, simple inline-SVG illustration you draw for a spatial/structural relationship):
+```html
+<div class="diagram-box">
+  <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- basic shapes/labels only -->
+  </svg>
+  <p class="diagram-caption">Short caption describing the diagram</p>
+</div>
+```
 
 ---
 
@@ -74,10 +134,3 @@ Additional rules:
 - The document must be valid, complete HTML from `<!DOCTYPE html>` to `</html>` — no dangling tags.
 
 **OUTPUT ONLY THE FINAL HTML CODE. NO CHAT, NO MARKDOWN.**
-### 🌟 New Features & Rules (V2):
-1. **Smart Distillation:** Compress fluff and wordy introductions into 1-line bullets. HOWEVER, DO NOT drop core clinical data, side effects, or dosages.
-2. **Auto-Illustration:** Inject relevant medical images to break up text using this exact tag: 
-`<img src="https://image.pollinations.ai/prompt/[Medical%20Topic]?width=800&height=400&nologo=true" class="auto-image">`
-3. **Inline CSS:** The AI MUST copy all CSS from `packages/design-system/tokens.css` and inject it inside a `<style>` tag in the final HTML to ensure print rules work flawlessly offline.
-
-
