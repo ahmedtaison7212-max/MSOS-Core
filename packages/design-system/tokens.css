@@ -58,7 +58,7 @@ body {
 }
 .hero-header h1 { font-size: 32px; margin: 10px 0; font-weight: 700; }
 .hero-header p { font-size: 16px; color: #cbd5e1; margin: 0; }
-.container { max-width: 1000px; margin: -40px auto 0; padding: 0 20px 40px; }
+.container { max-width: 1000px; margin: -40px auto 0; padding: 0 20px 40px; counter-reset: section-counter; }
 
 /* Content Boxes */
 .content-box {
@@ -66,14 +66,27 @@ body {
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--accent-blue);
     margin-bottom: 30px;
+    counter-increment: section-counter;
 }
+.content-box p { margin: 0 0 14px; }
+.content-box p:last-child { margin-bottom: 0; }
 .section-title {
     font-size: 24px; color: var(--primary-dark);
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 15px; margin-bottom: 25px;
+    display: flex; align-items: baseline; gap: 12px;
 }
-.sub-heading { font-size: 18px; color: var(--primary-blue); margin: 25px 0 15px; font-weight: 600; }
+.section-title::before {
+    content: counter(section-counter, decimal-leading-zero);
+    font-size: 15px; font-weight: 700; color: var(--accent-blue);
+    letter-spacing: 0.05em; flex-shrink: 0;
+}
+.sub-heading {
+    font-size: 18px; color: var(--primary-blue); margin: 25px 0 15px; font-weight: 600;
+    padding-left: 14px; border-left: 3px solid var(--accent-blue);
+}
 
 /* Tables — for drug doses, lab values, staging/comparison charts */
 table { width: 100%; border-collapse: collapse; margin: 15px 0 25px; font-size: 14px; }
@@ -97,6 +110,69 @@ th { background: #f8fafc; color: var(--primary-dark); font-weight: 600; }
 }
 .badge-ar { background-color: var(--amiya-border); color: white; padding: 4px 12px; border-radius: 15px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 10px; }
 .amiya-box p { margin: 0; font-size: 16px; color: #166534; font-weight: 600; }
+
+/* Amiya Note — lightweight inline explanation directly beneath the
+   paragraph/table/sub-heading it clarifies (see README → THE "AMIYA" RULE).
+   This is now the primary explanation mechanism; .amiya-box above is
+   only an optional end-of-topic recap. */
+.amiya-note {
+    background-color: var(--amiya-bg);
+    border-right: 3px solid var(--amiya-border);
+    padding: 10px 16px; border-radius: 6px; margin: 6px 0 18px;
+    direction: rtl; text-align: right; font-family: var(--font-ar);
+    font-size: 14px; color: #166534; font-weight: 600; line-height: 1.7;
+}
+
+/* Key Terms — a short glossary opening a content-box that introduces
+   unfamiliar terminology, before the reader hits it cold in running text */
+.key-terms {
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 16px 22px; margin: 0 0 25px;
+}
+.key-terms h4 {
+    margin: 0 0 10px; font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary-dark);
+}
+.key-terms dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+.key-terms dt { font-weight: 700; color: var(--primary-dark); white-space: nowrap; }
+.key-terms dd { margin: 0; color: var(--text-gray); font-size: 14px; }
+
+/* Comparison Table modifier — head-to-head comparisons (X vs Y, disease
+   stages, classification systems), visually distinct from a plain data table */
+table.compare-table th { background: var(--primary-dark); color: var(--white); }
+table.compare-table td:first-child { font-weight: 700; background: #f8fafc; color: var(--primary-dark); }
+
+/* Flow Diagram — a numbered step sequence for processes, pathways, and
+   staged progressions, so they aren't buried in prose or plain bullets */
+.flow-diagram { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0 25px; counter-reset: flow-step; }
+.flow-step {
+    flex: 1 1 160px; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 10px; padding: 16px 14px 14px; position: relative;
+    counter-increment: flow-step;
+}
+.flow-step::before {
+    content: counter(flow-step);
+    display: flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--accent-blue); color: var(--white);
+    font-size: 13px; font-weight: 700; margin-bottom: 10px;
+}
+.flow-step p { margin: 0; font-size: 14px; color: var(--text-dark); }
+/* Decorative connector between steps — screen only, hidden in print
+   (see @media print) so wrapped/stacked layouts never misalign it */
+.flow-step:not(:last-child)::after {
+    content: '→'; position: absolute; top: 16px; right: -20px;
+    color: #94a3b8; font-size: 18px; font-weight: 700;
+}
+
+/* Diagram Box — container for an original inline SVG illustration the AI
+   draws itself (never a broken <img src> pointing at a URL that doesn't exist) */
+.diagram-box {
+    background: var(--white); border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 20px; margin: 10px 0 25px; text-align: center;
+}
+.diagram-box svg { max-width: 100%; height: auto; }
+.diagram-caption { margin: 10px 0 0; font-size: 12.5px; color: var(--text-gray); font-style: italic; }
 
 /* Print Button */
 .print-btn {
@@ -159,13 +235,20 @@ th { background: #f8fafc; color: var(--primary-dark); font-weight: 600; }
     }
 
     /* But never leave a heading orphaned at the bottom of a page,
-       and never split a list item or the Amiya box itself */
+       and never split a list item, note, or small component mid-way */
     .section-title, .sub-heading {
         page-break-after: avoid; break-after: avoid;
     }
-    .amiya-box, li, .callout, img {
+    .amiya-box, .amiya-note, .key-terms, .diagram-box, .flow-step,
+    li, .callout, img {
         page-break-inside: avoid; break-inside: avoid;
     }
+
+    /* Flow diagrams: stack vertically in print instead of relying on flex-wrap
+       at a fixed page width, and drop the decorative arrow — the numbered
+       circles alone communicate order cleanly on paper. */
+    .flow-diagram { flex-direction: column; }
+    .flow-step::after { display: none; }
 
     /* Tables: same "no forced-avoid on a big element" logic as
        .content-box above — a 25-row drug table forced to avoid
@@ -182,20 +265,4 @@ th { background: #f8fafc; color: var(--primary-dark); font-weight: 600; }
     img { max-width: 100%; }
 
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-}
-
-/* تصميم الصور المولدة بالذكاء الاصطناعي */
-.auto-image {
-    width: 100%; 
-    max-height: 350px; 
-    object-fit: cover; 
-    border-radius: 12px; 
-    margin: 25px 0; 
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
-    border: 2px solid #e2e8f0;
-}
-
-/* منع قص الصور والبوكسات بين صفحتين في الطباعة */
-@media print {
-    .auto-image, .amiya-box { page-break-inside: avoid; }
 }
